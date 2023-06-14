@@ -18,14 +18,14 @@ OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 embeddings = OpenAIEmbeddings(client=OPENAI_API_KEY)
 
-if PINECONE_API_KEY is not None and PINECONE_API_ENV is not None and PINECONE_INDEX_NAME is not None:
-    pinecone.init(api_key=PINECONE_API_KEY, environment=PINECONE_API_ENV)
-    docsearch = Pinecone.from_existing_index(PINECONE_INDEX_NAME, embeddings)
-    query = "what are the key points an investor should know about the company"
-    relevent_data = docsearch.similarity_search(query)
-    print(relevent_data)
-    print("\n\n")
+def semantic_search(query):
+    if PINECONE_API_KEY is not None and PINECONE_API_ENV is not None and PINECONE_INDEX_NAME is not None:
+        pinecone.init(api_key=PINECONE_API_KEY, environment=PINECONE_API_ENV)
+        docsearch = Pinecone.from_existing_index(PINECONE_INDEX_NAME, embeddings)
+        relevent_data = docsearch.similarity_search(query)
 
-    llm = OpenAI(client=OPENAI_API_KEY)
-    chain = load_qa_chain(llm=llm, chain_type="stuff")
-    print(chain.run(input_documents=relevent_data, question=query))
+        llm = OpenAI(client=OPENAI_API_KEY)
+        chain = load_qa_chain(llm=llm, chain_type="stuff")
+        print(chain.run(input_documents=relevent_data, question=query))
+
+semantic_search("What are the primary costs of revenue?")
