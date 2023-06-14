@@ -39,4 +39,5 @@ def pdf_ingestion(url):
             # probably overkill for this case, but we want to be nice to the API
             time.sleep(0.25)
 
+# palantir 10Q
 pdf_ingestion("https://d18rn0p25nwr6d.cloudfront.net/CIK-0001321655/fdffdcae-8f15-4011-b30b-b7ede07cf82c.pdf")
